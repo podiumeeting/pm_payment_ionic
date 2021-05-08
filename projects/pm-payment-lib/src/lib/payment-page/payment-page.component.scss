@@ -1,0 +1,30 @@
+ion-label{
+  margin-left: initial;
+  margin-right: initial;
+  text-align: initial;
+  justify-content: initial;
+}
+.text-gray{
+  color: #717171;
+}
+.font-weight-bold {
+  font-weight: bold;
+}
+.w-100{
+  width: 100%;
+}
+.pay-btn {
+  height: 50px;
+}
+ion-input, ion-select{
+  background: transparent;
+  margin: initial;
+  width: 100%;
+}
+ion-input{
+  text-align: start;
+}
+ion-content{
+  --background: white;
+}
+

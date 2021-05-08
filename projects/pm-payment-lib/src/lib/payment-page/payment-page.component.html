@@ -1,0 +1,248 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button *ngIf="!paymentMethodSelected" default-href="/" (click)="closeModal()"></ion-back-button>
+      <ion-back-button *ngIf="paymentMethodSelected" default-href="/" (click)="showFormPayments()"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()"><ion-icon name="close"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title mode="ios">
+      Forma de pago
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid *ngIf="!paymentMethodSelected">
+    <ion-row class="ion-text-center font-weight-bold">
+      <ion-col size="7">Concepto</ion-col>
+      <ion-col size="5">Total</ion-col>
+    </ion-row>
+    <ion-row *ngFor="let conceptPayment of payment.concept_payments" class="text-gray">
+      <ion-col size="7">
+        ({{conceptPayment.amount | number}}) {{conceptPayment.description}} <br>
+        <div class="ion-text-right">{{conceptPayment.price | currency}}</div>
+      </ion-col>
+      <ion-col size="5" class="ion-text-center">
+        {{conceptPayment.total | currency}} {{payment.type_money?.code}}
+      </ion-col>
+    </ion-row>
+    <ion-row class="font-weight-bold">
+      <hr class="w-100">
+      <ion-col class="ion-text-right">
+        Subtotal: {{payment.subtotal | currency}} {{payment.type_money?.code}}<br>
+        Descuento: -{{payment.discount | currency}} {{payment.type_money?.code}}<br>
+      </ion-col>
+      <hr class="w-100">
+    </ion-row>
+    <ion-row class="font-weight-bold">
+      <ion-col class="ion-text-right">
+        Total: {{payment.total | currency}} {{payment.type_money?.code}}<br>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        Por favor, seleccione su método de pago
+      </ion-col>
+    </ion-row>
+    <ion-radio-group [value]="formPaymentConfigurationSelected?.id">
+      <ion-row *ngFor="let paymentMethod of paymentMethods">
+        <ion-col [ngSwitch]="paymentMethod.payment_gateway_id">
+          <div *ngSwitchCase="paymentGateway.CONEKTA">
+            <div *ngFor="let formPaymentConfiguration of paymentMethod.form_payment_configurations">
+              <div *ngIf="formPaymentConfiguration.is_active && formPaymentConfiguration.is_online_available">
+                <div [ngSwitch]="formPaymentConfiguration.form_payment_id">
+                  <div *ngSwitchCase="formPayment.CREDIT_CARD">
+                    <ion-card (click)="selectPaymentMethod(paymentMethod, formPaymentConfiguration)">
+                      <ion-card-content>
+                        <ion-item>
+                          <ion-label class="ion-text-left">
+                            <p>
+                              Pago con tarjeta de crédito
+                            </p>
+                          </ion-label>
+                          <ion-radio slot="start" value="{{formPaymentConfiguration.id}}"></ion-radio>
+                        </ion-item>
+                      </ion-card-content>
+                    </ion-card>
+                  </div>
+                  <div *ngSwitchCase="formPayment.DEBIT_CARD">
+                    <ion-card (click)="selectPaymentMethod(paymentMethod, formPaymentConfiguration)">
+                      <ion-card-content>
+                        <ion-item>
+                          <ion-label class="ion-text-left">
+                            <p>
+                              Pago con tarjeta de debito
+                            </p>
+                          </ion-label>
+                          <ion-radio slot="start" value="{{formPaymentConfiguration.id}}"></ion-radio>
+                        </ion-item>
+                      </ion-card-content>
+                    </ion-card>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-radio-group>
+  </ion-grid>
+  <ion-grid *ngIf="formPaymentConfigurationSelected">
+    <ion-row>
+      <ion-col [ngSwitch]="paymentMethodSelected.payment_gateway_id + '-'+ formPaymentConfigurationSelected.form_payment_id">
+        <form *ngSwitchCase="paymentGateway.CONEKTA+'-'+formPayment.CREDIT_CARD" [formGroup]="form" (ngSubmit)="processPayment()">
+          <ion-item>
+            <ion-label position="stacked" class="text-gray">Nombre del titular</ion-label>
+            <ion-input type="text" formControlName="cardholder_name"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked" class="text-gray">Correo electrónico del titular</ion-label>
+            <ion-input formControlName="cardholder_email"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked" class="text-gray">Teléfono del titular</ion-label>
+            <ion-input formControlName="cardholder_phone"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked" class="text-gray">Número de tarjeta</ion-label>
+            <ion-input formControlName="card_number"></ion-input>
+          </ion-item>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="stacked" class="text-gray">Mes</ion-label>
+                  <ion-select formControlName="card_exp_month" okText="aceptar" cancelText="cancelar">
+                    <ion-select-option value="01">01</ion-select-option>
+                    <ion-select-option value="02">02</ion-select-option>
+                    <ion-select-option value="03">03</ion-select-option>
+                    <ion-select-option value="04">04</ion-select-option>
+                    <ion-select-option value="05">05</ion-select-option>
+                    <ion-select-option value="06">06</ion-select-option>
+                    <ion-select-option value="07">07</ion-select-option>
+                    <ion-select-option value="08">08</ion-select-option>
+                    <ion-select-option value="09">09</ion-select-option>
+                    <ion-select-option value="10">10</ion-select-option>
+                    <ion-select-option value="11">11</ion-select-option>
+                    <ion-select-option value="12">12</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="stacked" class="text-gray">Año</ion-label>
+                  <ion-select formControlName="card_exp_year" okText="aceptar" cancelText="cancelar">
+                    <ion-select-option *ngFor="let year of generateArrayOfYears()" value="{{year}}">{{year}}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="6">
+                <ion-item>
+                  <ion-label position="stacked" class="text-gray">CCV</ion-label>
+                  <ion-input formControlName="card_ccv"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-radio-group formControlName="monthly_installments">
+            <ion-card>
+              <ion-card-content>
+                <ion-item>
+                  <ion-label class="ion-text-left">
+                    <p>
+                      1 mensualidad de {{payment.total}} ({{payment.total}})
+                    </p>
+                  </ion-label>
+                  <ion-radio slot="start" value="1"></ion-radio>
+                </ion-item>
+              </ion-card-content>
+            </ion-card>
+            <div *ngFor="let config of formPaymentConfigurationSelected.configuration_data | keyvalue">
+              <ion-card *ngIf="config.value.active" (click)="setTotalToPay(getTotal(config.value))">
+                <ion-card-content>
+                  <ion-item>
+                    <ion-label class="ion-text-left">
+                      <p>
+                        {{config.value.number_months}} mensualidades de {{getTotal(config.value)/config.value.number_months | currency}} ({{getTotal(config.value) | currency}})
+                      </p>
+                    </ion-label>
+                    <ion-radio slot="start" value="{{config.value.number_months}}"></ion-radio>
+                  </ion-item>
+                </ion-card-content>
+              </ion-card>
+            </div>
+          </ion-radio-group>
+          <ion-button type="submit" expand="block" fill="solid" class="pay-btn" [disabled]="!form.valid">
+            Pagar<br>
+            {{totalToPay | currency}} {{payment.type_money?.code}}
+          </ion-button>
+        </form>
+        <form *ngSwitchCase="paymentGateway.CONEKTA+'-'+formPayment.DEBIT_CARD" [formGroup]="form" (ngSubmit)="processPayment()">
+          <ion-item>
+            <ion-label position="stacked" class="text-gray">Nombre del titular</ion-label>
+            <ion-input type="text" formControlName="cardholder_name"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked" class="text-gray">Correo electrónico del titular</ion-label>
+            <ion-input formControlName="cardholder_email"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked" class="text-gray">Teléfono del titular</ion-label>
+            <ion-input formControlName="cardholder_phone"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked" class="text-gray">Número de tarjeta</ion-label>
+            <ion-input formControlName="card_number"></ion-input>
+          </ion-item>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="stacked" class="text-gray">Mes</ion-label>
+                  <ion-select formControlName="card_exp_month" okText="aceptar" cancelText="cancelar">
+                    <ion-select-option value="01">01</ion-select-option>
+                    <ion-select-option value="02">02</ion-select-option>
+                    <ion-select-option value="03">03</ion-select-option>
+                    <ion-select-option value="04">04</ion-select-option>
+                    <ion-select-option value="05">05</ion-select-option>
+                    <ion-select-option value="06">06</ion-select-option>
+                    <ion-select-option value="07">07</ion-select-option>
+                    <ion-select-option value="08">08</ion-select-option>
+                    <ion-select-option value="09">09</ion-select-option>
+                    <ion-select-option value="10">10</ion-select-option>
+                    <ion-select-option value="11">11</ion-select-option>
+                    <ion-select-option value="12">12</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="stacked" class="text-gray">Año</ion-label>
+                  <ion-select formControlName="card_exp_year" okText="aceptar" cancelText="cancelar">
+                    <ion-select-option *ngFor="let year of generateArrayOfYears()" value="{{year}}">{{year}}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="6">
+                <ion-item>
+                  <ion-label position="stacked" class="text-gray">CCV</ion-label>
+                  <ion-input formControlName="card_ccv"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-button type="submit" expand="block" fill="solid" class="pay-btn" [disabled]="!form.valid">
+            Pagar<br>
+            {{payment.total | currency}} {{payment.type_money?.code}}
+          </ion-button>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

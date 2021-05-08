@@ -1,0 +1,48 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "pm-payment-lib": {
+      "projectType": "library",
+      "root": "projects/pm-payment-lib",
+      "sourceRoot": "projects/pm-payment-lib/src",
+      "prefix": "dev",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/pm-payment-lib/tsconfig.lib.json",
+            "project": "projects/pm-payment-lib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/pm-payment-lib/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/pm-payment-lib/src/test.ts",
+            "tsConfig": "projects/pm-payment-lib/tsconfig.spec.json",
+            "karmaConfig": "projects/pm-payment-lib/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/pm-payment-lib/tsconfig.lib.json",
+              "projects/pm-payment-lib/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "pm-payment-lib"
+}
