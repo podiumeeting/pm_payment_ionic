@@ -1,4 +1,6 @@
-# PmPaymentLib
+# @pmpayment/ionic
+
+Plugin en ionic para la implementación de pagos del sistema podiumeeting
 
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.9.
 
