@@ -1,6 +1,6 @@
 {
   "name": "@podiumeeting/ionic-payment",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Plugin en ionic para la implementación de pagos del sistema podiumeeting.",
   "author": "Podiumeeting",
   "repository": {
