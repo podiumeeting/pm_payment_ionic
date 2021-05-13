@@ -26,6 +26,16 @@ export class PaymentPageComponent implements OnInit {
   paymentService: any = null;
   form: FormGroup;
   totalToPay = 0;
+  cardPlaceholders = {
+    name: '',
+    number: 'xxxx xxxx xxxx xxxx',
+    expiry: 'MM/YY',
+    cvc: 'xxx'
+  };
+  cardMessages = {
+    validDate: 'valid\nthru',
+    monthYear: 'MM/YYYY',
+  };
 
   constructor(private restService: PmPaymentLibService,
               private injector: Injector,
@@ -73,7 +83,7 @@ export class PaymentPageComponent implements OnInit {
       this.closeSuccess();
     }, async (response) => {
       await loading.dismiss();
-      await this.presentErrorAlert(response.message);
+      await this.presentErrorAlert(response.error.message);
     });
   }
 
@@ -85,8 +95,9 @@ export class PaymentPageComponent implements OnInit {
           cardholder_email: ['', [Validators.required]],
           cardholder_phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
           card_number: [null, [Validators.required]],
-          card_exp_month: [null, [Validators.required]],
-          card_exp_year: [null, [Validators.required]],
+          card_exp_month: [null, []],
+          card_exp_year: [null, []],
+          card_expiry: [null, [Validators.required]],
           card_ccv: [null, [Validators.required]],
           monthly_installments: [null, [Validators.required]]
         });
@@ -97,8 +108,9 @@ export class PaymentPageComponent implements OnInit {
           cardholder_email: ['', [Validators.required]],
           cardholder_phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
           card_number: [null, [Validators.required]],
-          card_exp_month: [null, [Validators.required]],
-          card_exp_year: [null, [Validators.required]],
+          card_exp_month: [null, []],
+          card_exp_year: [null, []],
+          card_expiry: [null, [Validators.required]],
           card_ccv: [null, [Validators.required]],
         });
         break;
@@ -108,6 +120,13 @@ export class PaymentPageComponent implements OnInit {
   showFormPayments(): void{
     this.paymentMethodSelected = null;
     this.formPaymentConfigurationSelected = null;
+  }
+
+  changeCardExpiry(): void{
+    const expiryDate = this.form.controls.card_expiry.value;
+    const [month, year] = expiryDate.replaceAll(' ', '').split('/');
+    this.form.controls.card_exp_month.setValue(month);
+    this.form.controls.card_exp_year.setValue(year);
   }
 
   getTotal(monthConfig): number{

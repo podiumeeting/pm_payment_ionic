@@ -42,5 +42,8 @@ ion-content{
 .form-ion-item{
   --ion-border-color: initial !important;
   --border-width: 0 0 2px 0;
+  ion-label{
+    font-size: 1.4em;
+  }
 }
 

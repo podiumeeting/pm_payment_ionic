@@ -62,10 +62,10 @@ export class ConektaV200Service implements PaymentService{
         }).subscribe((response) => {
           onSuccess(response);
         }, (response) => {
-          onError({source: this.SERVER, error: response.data, status: response.status});
+          onError({source: this.SERVER, error: response.error, status: response.status});
         });
       }, (response) => {
-        onError({source: this.TOKENIZER, error: response.message_to_purchaser});
+        onError({source: this.TOKENIZER, error: {message: response.message_to_purchaser}});
       }
     );
     return promise;
@@ -103,10 +103,10 @@ export class ConektaV200Service implements PaymentService{
         }).subscribe((response) => {
           onSuccess(response);
         }, (response) => {
-          onError({source: this.SERVER, error: response.data, status: response.status});
+          onError({source: this.SERVER, error: response.error, status: response.status});
         });
     }, (response) => {
-      onError({source: this.TOKENIZER, error: response.message_to_purchaser});
+      onError({source: this.TOKENIZER, error: {message: response.message_to_purchaser}});
     });
     return promise;
   }

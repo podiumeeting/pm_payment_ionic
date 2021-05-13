@@ -1,9 +1,10 @@
 import { PaymentPageRoutingModule } from './payment-page-routing.module';
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
 import {PaymentPageComponent} from './payment-page.component';
+import {CardModule} from 'ngx-card';
 
 @NgModule({
     imports: [
@@ -11,8 +12,12 @@ import {PaymentPageComponent} from './payment-page.component';
         FormsModule,
         IonicModule,
         PaymentPageRoutingModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        CardModule
     ],
-  declarations: [PaymentPageComponent]
+  declarations: [PaymentPageComponent],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ]
 })
 export class PaymentPageModule {}

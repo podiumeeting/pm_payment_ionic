@@ -6,7 +6,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {IonicModule} from '@ionic/angular';
 import {PmPaymentLibService} from './pm-payment-lib.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {ConektaV200Service} from "./services/conekta-v2-0-0.service";
+import {ConektaV200Service} from './services/conekta-v2-0-0.service';
 
 export interface LibConfig {
   apiUrl: string;
