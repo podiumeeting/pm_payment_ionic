@@ -7,6 +7,7 @@ import {IonicModule} from '@ionic/angular';
 import {PmPaymentLibService} from './pm-payment-lib.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ConektaV200Service} from './services/conekta-v2-0-0.service';
+import {CashOnDeliveryV100Service} from './services/cash-on-delivery-v1-0-0.service';
 
 export interface LibConfig {
   apiUrl: string;
@@ -23,7 +24,10 @@ export const LibConfigService = new InjectionToken<LibConfig>('LibConfig');
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [{provide: 'ConektaV200Service', useExisting: ConektaV200Service}],
+  providers: [
+    {provide: 'ConektaV200Service', useExisting: ConektaV200Service},
+    {provide: 'CashOnDeliveryV100Service', useExisting: CashOnDeliveryV100Service}
+    ],
   exports: [PmPaymentLibComponent]
 })
 export class PmPaymentLibModule {

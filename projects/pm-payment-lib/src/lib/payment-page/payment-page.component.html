@@ -47,41 +47,66 @@
       </ion-col>
     </ion-row>
     <!--ion-radio-group [value]="formPaymentConfigurationSelected?.id"-->
-      <ion-row *ngFor="let paymentMethod of paymentMethods">
-        <ion-col [ngSwitch]="paymentMethod.payment_gateway_id">
-          <div *ngSwitchCase="paymentGateway.CONEKTA">
-            <div *ngFor="let formPaymentConfiguration of paymentMethod.form_payment_configurations">
-              <div *ngIf="formPaymentConfiguration.is_active && formPaymentConfiguration.is_online_available">
-                <div [ngSwitch]="formPaymentConfiguration.form_payment_id">
-                  <div *ngSwitchCase="formPayment.CREDIT_CARD">
-                    <ion-card class="form-payment-card" (click)="selectPaymentMethod(paymentMethod, formPaymentConfiguration)">
-                      <ion-card-content>
-                        <ion-item>
-                          <ion-label class="ion-text-center">
-                            <p>
-                              Pago con tarjeta de crédito
-                            </p>
-                            <ion-img class="form-payment-img" src="/assets/img/form_payment/credit_card.png"></ion-img>
-                          </ion-label>
-                          <!--ion-radio slot="start" value="{{formPaymentConfiguration.id}}"></ion-radio-->
-                        </ion-item>
-                      </ion-card-content>
-                    </ion-card>
+      <ion-row>
+        <ion-col>
+          <div *ngFor="let paymentMethod of paymentMethods" [ngSwitch]="paymentMethod.payment_gateway_id">
+            <div *ngSwitchCase="paymentGateway.CONEKTA">
+              <div *ngFor="let formPaymentConfiguration of paymentMethod.form_payment_configurations">
+                <div *ngIf="formPaymentConfiguration.is_active && formPaymentConfiguration.is_online_available">
+                  <div [ngSwitch]="formPaymentConfiguration.form_payment_id">
+                    <div *ngSwitchCase="formPayment.CREDIT_CARD">
+                      <ion-card class="form-payment-card" (click)="selectPaymentMethod(paymentMethod, formPaymentConfiguration)">
+                        <ion-card-content>
+                          <ion-item>
+                            <ion-label class="ion-text-center">
+                              <p>
+                                Pago con tarjeta de crédito
+                              </p>
+                              <ion-img class="form-payment-img" src="/assets/img/form_payment/credit_card.png"></ion-img>
+                            </ion-label>
+                            <!--ion-radio slot="start" value="{{formPaymentConfiguration.id}}"></ion-radio-->
+                          </ion-item>
+                        </ion-card-content>
+                      </ion-card>
+                    </div>
+                    <div *ngSwitchCase="formPayment.DEBIT_CARD">
+                      <ion-card class="form-payment-card" (click)="selectPaymentMethod(paymentMethod, formPaymentConfiguration)">
+                        <ion-card-content>
+                          <ion-item>
+                            <ion-label class="ion-text-center">
+                              <p>
+                                Pago con tarjeta de debito
+                              </p>
+                              <ion-img class="form-payment-img" style="max-width: 50%;" src="/assets/img/form_payment/debit_card.png"></ion-img>
+                            </ion-label>
+                            <!--ion-radio slot="start" value="{{formPaymentConfiguration.id}}"></ion-radio-->
+                          </ion-item>
+                        </ion-card-content>
+                      </ion-card>
+                    </div>
                   </div>
-                  <div *ngSwitchCase="formPayment.DEBIT_CARD">
-                    <ion-card class="form-payment-card" (click)="selectPaymentMethod(paymentMethod, formPaymentConfiguration)">
-                      <ion-card-content>
-                        <ion-item>
-                          <ion-label class="ion-text-center">
-                            <p>
-                              Pago con tarjeta de debito
-                            </p>
-                            <ion-img class="form-payment-img" style="max-width: 50%;" src="/assets/img/form_payment/debit_card.png"></ion-img>
-                          </ion-label>
-                          <!--ion-radio slot="start" value="{{formPaymentConfiguration.id}}"></ion-radio-->
-                        </ion-item>
-                      </ion-card-content>
-                    </ion-card>
+                </div>
+              </div>
+            </div>
+            <div *ngSwitchCase="paymentGateway.CASH_ON_DELIVERY">
+              <div *ngFor="let formPaymentConfiguration of paymentMethod.form_payment_configurations">
+                <div *ngIf="formPaymentConfiguration.is_active && formPaymentConfiguration.is_online_available">
+                  <div [ngSwitch]="formPaymentConfiguration.form_payment_id">
+                    <div *ngSwitchCase="formPayment.CASH">
+                      <ion-card class="form-payment-card" (click)="selectPaymentMethod(paymentMethod, formPaymentConfiguration)">
+                        <ion-card-content>
+                          <ion-item>
+                            <ion-label class="ion-text-center">
+                              <p>
+                                Pago en efectivo
+                              </p>
+                              <ion-img class="form-payment-img" style="max-width: 35%;" src="/assets/img/form_payment/cash.png"></ion-img>
+                            </ion-label>
+                            <!--ion-radio slot="start" value="{{formPaymentConfiguration.id}}"></ion-radio-->
+                          </ion-item>
+                        </ion-card-content>
+                      </ion-card>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -214,6 +239,21 @@
             <ion-label position="stacked" class="text-gray">Teléfono del titular</ion-label>
             <ion-input formControlName="cardholder_phone"></ion-input>
           </ion-item>
+          <ion-button type="submit" expand="block" fill="solid" color="dark" class="pay-btn" [disabled]="!form.valid">
+            Pagar<br>
+            {{payment.total | currency}} {{payment.type_money?.code}}
+          </ion-button>
+          <ion-button type="button" expand="block" fill="clear" class="text-gray text-transform-none" (click)="showFormPayments()">Regresar</ion-button>
+        </form>
+        <form *ngSwitchCase="paymentGateway.CASH_ON_DELIVERY+'-'+formPayment.CASH"
+              [formGroup]="form"
+              (ngSubmit)="processPayment()">
+          <ion-img class="form-payment-img" style="max-width: 35%;" src="/assets/img/form_payment/cash.png"></ion-img>
+          <ion-item class="form-ion-item">
+            <ion-label class="text-gray ion-text-center">El pago en efectivo se debe cobrar la cantidad exacta</ion-label>
+          </ion-item>
+          <br>
+          <br>
           <ion-button type="submit" expand="block" fill="solid" color="dark" class="pay-btn" [disabled]="!form.valid">
             Pagar<br>
             {{payment.total | currency}} {{payment.type_money?.code}}

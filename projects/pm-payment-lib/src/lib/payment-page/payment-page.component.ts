@@ -68,7 +68,7 @@ export class PaymentPageComponent implements OnInit {
     this.paymentMethodSelected = paymentMethod;
     this.formPaymentConfigurationSelected = formPaymentConfiguration;
     this.buildForm();
-    const name = `${this.titleCasePipe.transform(paymentMethod.payment_gateway.name.toLowerCase())}V${paymentMethod.payment_gateway.version.replaceAll('.', '')}Service`;
+    const name = `${this.titleCasePipe.transform(paymentMethod.payment_gateway.name.toLowerCase().replaceAll('_', ' ')).replace(/ /g, '')}V${paymentMethod.payment_gateway.version.replaceAll('.', '')}Service`;
     this.paymentService = this.injector.get<PaymentService>(name as any);
     this.paymentService.initialize(this.paymentMethodSelected, this.formPaymentConfigurationSelected);
   }
@@ -113,6 +113,9 @@ export class PaymentPageComponent implements OnInit {
           card_expiry: [null, [Validators.required]],
           card_ccv: [null, [Validators.required]],
         });
+        break;
+      case this.paymentGateway.CASH_ON_DELIVERY + '-' + this.formPayment.CASH:
+        this.form = this.formBuilder.group({});
         break;
     }
   }
