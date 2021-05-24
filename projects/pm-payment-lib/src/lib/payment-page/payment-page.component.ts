@@ -125,6 +125,23 @@ export class PaymentPageComponent implements OnInit {
     this.formPaymentConfigurationSelected = null;
   }
 
+  async changeInput(event): Promise<void> {
+    const focusEvent = new Event('focus');
+    const blurEvent = new Event('blur');
+    event.target.dispatchEvent(focusEvent);
+    event.target.dispatchEvent(blurEvent);
+  }
+
+  async focusInput(event): Promise<void> {
+    const focusEvent = new Event('focus');
+    event.target.dispatchEvent(focusEvent);
+  }
+
+  async blurInput(event): Promise<void> {
+    const blurEvent = new Event('blur');
+    event.target.dispatchEvent(blurEvent);
+  }
+
   changeCardExpiry(): void{
     const expiryDate = this.form.controls.card_expiry.value;
     const [month, year] = expiryDate.replaceAll(' ', '').split('/');

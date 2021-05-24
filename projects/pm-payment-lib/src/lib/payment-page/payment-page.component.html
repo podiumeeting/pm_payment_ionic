@@ -139,7 +139,7 @@
           </ion-item>
           <ion-item class="form-ion-item">
             <ion-label position="stacked" class="text-gray">Número de tarjeta</ion-label>
-            <ion-input formControlName="card_number" name="number" card-number></ion-input>
+            <ion-input formControlName="card_number" name="number" card-number (ionChange)="changeInput($event)"></ion-input>
           </ion-item>
           <ion-grid>
             <ion-row>
@@ -152,7 +152,7 @@
               <ion-col size="6">
                 <ion-item class="form-ion-item">
                   <ion-label position="stacked" class="text-gray">CCV</ion-label>
-                  <ion-input formControlName="card_ccv" name="ccv" card-cvc></ion-input>
+                  <ion-input formControlName="card_ccv" name="ccv" card-cvc (ionFocus)="focusInput($event)" (ionBlur)="blurInput($event)"></ion-input>
                 </ion-item>
               </ion-col>
             </ion-row>
@@ -213,7 +213,7 @@
           </ion-item>
           <ion-item class="form-ion-item">
             <ion-label position="stacked" class="text-gray">Número de tarjeta</ion-label>
-            <ion-input formControlName="card_number" name="number" card-number></ion-input>
+            <ion-input type="text" formControlName="card_number" id="number" name="number" card-number (ionChange)="changeInput($event)"></ion-input>
           </ion-item>
           <ion-grid>
             <ion-row>
@@ -226,7 +226,7 @@
               <ion-col size="6">
                 <ion-item class="form-ion-item">
                   <ion-label position="stacked" class="text-gray">CCV</ion-label>
-                  <ion-input formControlName="card_ccv" name="ccv" card-cvc></ion-input>
+                  <ion-input formControlName="card_ccv" id="cc-number" name="ccv" card-cvc (ionFocus)="focusInput($event)" (ionBlur)="blurInput($event)"></ion-input>
                 </ion-item>
               </ion-col>
             </ion-row>
@@ -239,6 +239,7 @@
             <ion-label position="stacked" class="text-gray">Teléfono del titular</ion-label>
             <ion-input formControlName="cardholder_phone"></ion-input>
           </ion-item>
+          <br>
           <ion-button type="submit" expand="block" fill="solid" color="dark" class="pay-btn" [disabled]="!form.valid">
             Pagar<br>
             {{payment.total | currency}} {{payment.type_money?.code}}
