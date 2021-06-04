@@ -139,21 +139,47 @@
           </ion-item>
           <ion-item class="form-ion-item">
             <ion-label position="stacked" class="text-gray">Número de tarjeta</ion-label>
-            <ion-input formControlName="card_number" name="number" card-number (ionChange)="changeInput($event)"></ion-input>
+            <ion-input formControlName="card_number" name="number" card-number (ionChange)="focusBlurInput($event)"></ion-input>
           </ion-item>
           <ion-grid>
             <ion-row>
-              <ion-col size="6">
+              <ion-col>
                 <ion-item class="form-ion-item">
-                  <ion-label position="stacked" class="text-gray">Mes / Año</ion-label>
-                  <ion-input formControlName="card_expiry" name="expiry" card-expiry (ionChange)="changeCardExpiry()"></ion-input>
+                  <ion-label position="stacked" class="text-gray">Mes</ion-label>
+                  <ion-select formControlName="card_exp_month" okText="aceptar" cancelText="cancelar" (ionChange)="changeCardExpiry($event)">
+                    <ion-select-option value="01">01</ion-select-option>
+                    <ion-select-option value="02">02</ion-select-option>
+                    <ion-select-option value="03">03</ion-select-option>
+                    <ion-select-option value="04">04</ion-select-option>
+                    <ion-select-option value="05">05</ion-select-option>
+                    <ion-select-option value="06">06</ion-select-option>
+                    <ion-select-option value="07">07</ion-select-option>
+                    <ion-select-option value="08">08</ion-select-option>
+                    <ion-select-option value="09">09</ion-select-option>
+                    <ion-select-option value="10">10</ion-select-option>
+                    <ion-select-option value="11">11</ion-select-option>
+                    <ion-select-option value="12">12</ion-select-option>
+                  </ion-select>
                 </ion-item>
               </ion-col>
+              <ion-col>
+                <ion-item class="form-ion-item">
+                  <ion-label position="stacked" class="text-gray">Año</ion-label>
+                  <ion-select formControlName="card_exp_year" okText="aceptar" cancelText="cancelar" (ionChange)="changeCardExpiry($event)">
+                    <ion-select-option *ngFor="let year of generateArrayOfYears()" value="{{year}}">{{year}}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row>
               <ion-col size="6">
                 <ion-item class="form-ion-item">
                   <ion-label position="stacked" class="text-gray">CCV</ion-label>
                   <ion-input formControlName="card_ccv" name="ccv" card-cvc (ionFocus)="focusInput($event)" (ionBlur)="blurInput($event)"></ion-input>
                 </ion-item>
+              </ion-col>
+              <ion-col size="6">
+                <ion-input type="hidden" formControlName="card_expiry" name="expiry" card-expiry (ionChange)="changeInput($event)"></ion-input>
               </ion-col>
             </ion-row>
           </ion-grid>
@@ -213,21 +239,47 @@
           </ion-item>
           <ion-item class="form-ion-item">
             <ion-label position="stacked" class="text-gray">Número de tarjeta</ion-label>
-            <ion-input type="text" formControlName="card_number" id="number" name="number" card-number (ionChange)="changeInput($event)"></ion-input>
+            <ion-input type="text" formControlName="card_number" id="number" name="number" card-number (ionChange)="focusBlurInput($event)"></ion-input>
           </ion-item>
           <ion-grid>
             <ion-row>
-              <ion-col size="6">
+              <ion-col>
                 <ion-item class="form-ion-item">
-                  <ion-label position="stacked" class="text-gray">Mes / Año</ion-label>
-                  <ion-input formControlName="card_expiry" name="expiry" card-expiry (ionChange)="changeCardExpiry()"></ion-input>
+                  <ion-label position="stacked" class="text-gray">Mes</ion-label>
+                  <ion-select formControlName="card_exp_month" okText="aceptar" cancelText="cancelar" (ionChange)="changeCardExpiry($event)">
+                    <ion-select-option value="01">01</ion-select-option>
+                    <ion-select-option value="02">02</ion-select-option>
+                    <ion-select-option value="03">03</ion-select-option>
+                    <ion-select-option value="04">04</ion-select-option>
+                    <ion-select-option value="05">05</ion-select-option>
+                    <ion-select-option value="06">06</ion-select-option>
+                    <ion-select-option value="07">07</ion-select-option>
+                    <ion-select-option value="08">08</ion-select-option>
+                    <ion-select-option value="09">09</ion-select-option>
+                    <ion-select-option value="10">10</ion-select-option>
+                    <ion-select-option value="11">11</ion-select-option>
+                    <ion-select-option value="12">12</ion-select-option>
+                  </ion-select>
                 </ion-item>
               </ion-col>
+              <ion-col>
+                <ion-item class="form-ion-item">
+                  <ion-label position="stacked" class="text-gray">Año</ion-label>
+                  <ion-select formControlName="card_exp_year" okText="aceptar" cancelText="cancelar" (ionChange)="changeCardExpiry($event)">
+                    <ion-select-option *ngFor="let year of generateArrayOfYears()" value="{{year}}">{{year}}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row>
               <ion-col size="6">
                 <ion-item class="form-ion-item">
                   <ion-label position="stacked" class="text-gray">CCV</ion-label>
                   <ion-input formControlName="card_ccv" id="cc-number" name="ccv" card-cvc (ionFocus)="focusInput($event)" (ionBlur)="blurInput($event)"></ion-input>
                 </ion-item>
+              </ion-col>
+              <ion-col size="6">
+                <ion-input type="hidden" formControlName="card_expiry" name="expiry" card-expiry (ionChange)="changeInput($event)"></ion-input>
               </ion-col>
             </ion-row>
           </ion-grid>

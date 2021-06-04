@@ -95,9 +95,9 @@ export class PaymentPageComponent implements OnInit {
           cardholder_email: ['', [Validators.required]],
           cardholder_phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
           card_number: [null, [Validators.required]],
-          card_exp_month: [null, []],
-          card_exp_year: [null, []],
-          card_expiry: [null, [Validators.required]],
+          card_exp_month: [null, [Validators.required]],
+          card_exp_year: [null, [Validators.required]],
+          card_expiry: [null, []],
           card_ccv: [null, [Validators.required]],
           monthly_installments: [null, [Validators.required]]
         });
@@ -108,9 +108,9 @@ export class PaymentPageComponent implements OnInit {
           cardholder_email: ['', [Validators.required]],
           cardholder_phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
           card_number: [null, [Validators.required]],
-          card_exp_month: [null, []],
-          card_exp_year: [null, []],
-          card_expiry: [null, [Validators.required]],
+          card_exp_month: [null, [Validators.required]],
+          card_exp_year: [null, [Validators.required]],
+          card_expiry: [null, []],
           card_ccv: [null, [Validators.required]],
         });
         break;
@@ -125,7 +125,7 @@ export class PaymentPageComponent implements OnInit {
     this.formPaymentConfigurationSelected = null;
   }
 
-  async changeInput(event): Promise<void> {
+  async focusBlurInput(event): Promise<void> {
     const focusEvent = new Event('focus');
     const blurEvent = new Event('blur');
     event.target.dispatchEvent(focusEvent);
@@ -142,11 +142,26 @@ export class PaymentPageComponent implements OnInit {
     event.target.dispatchEvent(blurEvent);
   }
 
-  changeCardExpiry(): void{
-    const expiryDate = this.form.controls.card_expiry.value;
+  async changeInput(event): Promise<void>{
+    const focusEvent = new Event('change');
+    event.target.dispatchEvent(focusEvent);
+  }
+
+  changeCardExpiry(event): void{
+    let expiry = '00';
+    const month = this.form.controls.card_exp_month.value;
+    const year = this.form.controls.card_exp_year.value;
+    if (month){
+      expiry = month;
+    }
+    if (year){
+      expiry = expiry + '/' + year;
+    }
+    this.form.controls.card_expiry.setValue(expiry);
+    /*const expiryDate = this.form.controls.card_expiry.value;
     const [month, year] = expiryDate.replaceAll(' ', '').split('/');
     this.form.controls.card_exp_month.setValue(month);
-    this.form.controls.card_exp_year.setValue(year);
+    this.form.controls.card_exp_year.setValue(year);*/
   }
 
   getTotal(monthConfig): number{
