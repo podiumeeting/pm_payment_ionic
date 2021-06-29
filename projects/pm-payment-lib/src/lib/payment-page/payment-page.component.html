@@ -128,6 +128,7 @@
         <form card container=".card-container"
               [messages]="cardMessages"
               [placeholders]="cardPlaceholders"
+              [masks]="masks"
               formatting="true"
               debug="false"
               *ngSwitchCase="paymentGateway.CONEKTA+'-'+formPayment.CREDIT_CARD"
@@ -139,7 +140,7 @@
           </ion-item>
           <ion-item class="form-ion-item">
             <ion-label position="stacked" class="text-gray">Número de tarjeta</ion-label>
-            <ion-input formControlName="card_number" name="number" card-number (ionChange)="focusBlurInput($event)"></ion-input>
+            <ion-input formControlName="card_number" name="number" card-number (ionInput)="maskCardNumber($event)" (ionChange)="focusBlurInput($event)"></ion-input>
           </ion-item>
           <ion-grid>
             <ion-row>
@@ -185,7 +186,7 @@
           </ion-grid>
           <ion-item class="form-ion-item">
             <ion-label position="stacked" class="text-gray">Correo electrónico del titular</ion-label>
-            <ion-input formControlName="cardholder_email"></ion-input>
+            <ion-input type="email" formControlName="cardholder_email"></ion-input>
           </ion-item>
           <ion-item class="form-ion-item">
             <ion-label position="stacked" class="text-gray">Teléfono del titular</ion-label>
@@ -228,6 +229,7 @@
         <form card container=".card-container"
               [messages]="cardMessages"
               [placeholders]="cardPlaceholders"
+              [masks]="masks"
               formatting="true"
               debug="false"
               *ngSwitchCase="paymentGateway.CONEKTA+'-'+formPayment.DEBIT_CARD"
@@ -239,7 +241,7 @@
           </ion-item>
           <ion-item class="form-ion-item">
             <ion-label position="stacked" class="text-gray">Número de tarjeta</ion-label>
-            <ion-input type="text" formControlName="card_number" id="number" name="number" card-number (ionChange)="focusBlurInput($event)"></ion-input>
+            <ion-input type="text" formControlName="card_number" id="number" name="number" card-number (ionInput)="maskCardNumber($event)" (ionChange)="focusBlurInput($event);"></ion-input>
           </ion-item>
           <ion-grid>
             <ion-row>
@@ -285,7 +287,7 @@
           </ion-grid>
           <ion-item class="form-ion-item">
             <ion-label position="stacked" class="text-gray">Correo electrónico del titular</ion-label>
-            <ion-input formControlName="cardholder_email"></ion-input>
+            <ion-input type="email" formControlName="cardholder_email"></ion-input>
           </ion-item>
           <ion-item class="form-ion-item">
             <ion-label position="stacked" class="text-gray">Teléfono del titular</ion-label>

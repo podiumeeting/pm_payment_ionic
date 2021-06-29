@@ -36,6 +36,9 @@ export class PaymentPageComponent implements OnInit {
     validDate: 'valid\nthru',
     monthYear: 'MM/YYYY',
   };
+  masks: {
+    cardNumber: '•'
+  };
 
   constructor(private restService: PmPaymentLibService,
               private injector: Injector,
@@ -92,26 +95,26 @@ export class PaymentPageComponent implements OnInit {
       case this.paymentGateway.CONEKTA + '-' + this.formPayment.CREDIT_CARD:
         this.form = this.formBuilder.group({
           cardholder_name: ['', [Validators.required]],
-          cardholder_email: ['', [Validators.required]],
+          cardholder_email: ['', [Validators.required, Validators.email]],
           cardholder_phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-          card_number: [null, [Validators.required]],
+          card_number: [null, [Validators.required, Validators.maxLength(23)]],
           card_exp_month: [null, [Validators.required]],
           card_exp_year: [null, [Validators.required]],
           card_expiry: [null, []],
-          card_ccv: [null, [Validators.required]],
+          card_ccv: [null, [Validators.required, Validators.maxLength(4)]],
           monthly_installments: [null, [Validators.required]]
         });
         break;
       case this.paymentGateway.CONEKTA + '-' + this.formPayment.DEBIT_CARD:
         this.form = this.formBuilder.group({
           cardholder_name: ['', [Validators.required]],
-          cardholder_email: ['', [Validators.required]],
+          cardholder_email: ['', [Validators.required, Validators.email]],
           cardholder_phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-          card_number: [null, [Validators.required]],
+          card_number: [null, [Validators.required, Validators.maxLength(23)]],
           card_exp_month: [null, [Validators.required]],
           card_exp_year: [null, [Validators.required]],
           card_expiry: [null, []],
-          card_ccv: [null, [Validators.required]],
+          card_ccv: [null, [Validators.required, Validators.maxLength(4)]],
         });
         break;
       case this.paymentGateway.CASH_ON_DELIVERY + '-' + this.formPayment.CASH:
@@ -130,6 +133,22 @@ export class PaymentPageComponent implements OnInit {
     const blurEvent = new Event('blur');
     event.target.dispatchEvent(focusEvent);
     event.target.dispatchEvent(blurEvent);
+  }
+
+  maskCardNumber(event): void {
+    let inputTxt = event.srcElement.value;
+    inputTxt = inputTxt ? inputTxt.split(' ').join('') : '';
+    // inputTxt = inputTxt.length > 19 ? inputTxt.substring(0, 19) : inputTxt;
+    this.form.controls.card_number.setValue(this.maskString(inputTxt));
+  }
+
+  maskString(inputTxt): string{
+    inputTxt = inputTxt.replace(/\D/g, '');
+    inputTxt = inputTxt.replace(/(\d{4})(\d)/, '$1 $2');
+    inputTxt = inputTxt.replace(/(\d{4})(\d)/, '$1 $2');
+    inputTxt = inputTxt.replace(/(\d{4})(\d)/, '$1 $2');
+    inputTxt = inputTxt.replace(/(\d{4})(\d)/, '$1 $2');
+    return inputTxt;
   }
 
   async focusInput(event): Promise<void> {
