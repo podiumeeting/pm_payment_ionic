@@ -96,7 +96,7 @@ export class PaymentPageComponent implements OnInit {
         this.form = this.formBuilder.group({
           cardholder_name: ['', [Validators.required]],
           cardholder_email: ['', [Validators.required, Validators.email]],
-          cardholder_phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+          cardholder_phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(15)]],
           card_number: [null, [Validators.required, Validators.maxLength(23)]],
           card_exp_month: [null, [Validators.required]],
           card_exp_year: [null, [Validators.required]],
@@ -109,7 +109,7 @@ export class PaymentPageComponent implements OnInit {
         this.form = this.formBuilder.group({
           cardholder_name: ['', [Validators.required]],
           cardholder_email: ['', [Validators.required, Validators.email]],
-          cardholder_phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+          cardholder_phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(15)]],
           card_number: [null, [Validators.required, Validators.maxLength(23)]],
           card_exp_month: [null, [Validators.required]],
           card_exp_year: [null, [Validators.required]],

@@ -140,7 +140,7 @@
           </ion-item>
           <ion-item class="form-ion-item">
             <ion-label position="stacked" class="text-gray">Número de tarjeta</ion-label>
-            <ion-input formControlName="card_number" name="number" card-number (ionInput)="maskCardNumber($event)" (ionChange)="focusBlurInput($event)"></ion-input>
+            <ion-input type="tel" formControlName="card_number" name="number" card-number (ionInput)="maskCardNumber($event)" (ionChange)="focusBlurInput($event)"></ion-input>
           </ion-item>
           <ion-grid>
             <ion-row>
@@ -176,7 +176,7 @@
               <ion-col size="6">
                 <ion-item class="form-ion-item">
                   <ion-label position="stacked" class="text-gray">CCV</ion-label>
-                  <ion-input formControlName="card_ccv" name="ccv" card-cvc (ionFocus)="focusInput($event)" (ionBlur)="blurInput($event)"></ion-input>
+                  <ion-input type="tel" formControlName="card_ccv" name="ccv" card-cvc (ionFocus)="focusInput($event)" (ionBlur)="blurInput($event)"></ion-input>
                 </ion-item>
               </ion-col>
               <ion-col size="6">
@@ -190,7 +190,7 @@
           </ion-item>
           <ion-item class="form-ion-item">
             <ion-label position="stacked" class="text-gray">Teléfono del titular</ion-label>
-            <ion-input formControlName="cardholder_phone"></ion-input>
+            <ion-input type="tel" formControlName="cardholder_phone"></ion-input>
           </ion-item>
           <ion-radio-group formControlName="monthly_installments">
             <ion-card (click)="setTotalToPay(payment.total)">
@@ -241,7 +241,7 @@
           </ion-item>
           <ion-item class="form-ion-item">
             <ion-label position="stacked" class="text-gray">Número de tarjeta</ion-label>
-            <ion-input type="text" formControlName="card_number" id="number" name="number" card-number (ionInput)="maskCardNumber($event)" (ionChange)="focusBlurInput($event);"></ion-input>
+            <ion-input type="tel" formControlName="card_number" id="number" name="number" card-number (ionChange)="focusBlurInput($event);"></ion-input>
           </ion-item>
           <ion-grid>
             <ion-row>
@@ -277,7 +277,7 @@
               <ion-col size="6">
                 <ion-item class="form-ion-item">
                   <ion-label position="stacked" class="text-gray">CCV</ion-label>
-                  <ion-input formControlName="card_ccv" id="cc-number" name="ccv" card-cvc (ionFocus)="focusInput($event)" (ionBlur)="blurInput($event)"></ion-input>
+                  <ion-input type="tel" formControlName="card_ccv" id="cc-number" name="ccv" card-cvc (ionFocus)="focusInput($event)" (ionBlur)="blurInput($event)"></ion-input>
                 </ion-item>
               </ion-col>
               <ion-col size="6">
@@ -291,7 +291,7 @@
           </ion-item>
           <ion-item class="form-ion-item">
             <ion-label position="stacked" class="text-gray">Teléfono del titular</ion-label>
-            <ion-input formControlName="cardholder_phone"></ion-input>
+            <ion-input type="tel" formControlName="cardholder_phone"></ion-input>
           </ion-item>
           <br>
           <ion-button type="submit" expand="block" fill="solid" color="dark" class="pay-btn" [disabled]="!form.valid">
